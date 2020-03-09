@@ -43,10 +43,21 @@ Runtime:addEventListener("enterFrame", MoveSheep)
 local chicken = display.newImageRect("Images/chicken.png", 140 ,140)
 chicken.x = 300
 chicken.y = 600
+chicken.alpha = 1
+local chickenXMoving = 2
+--Function:MoveChicken
+--Input: This function accepts an event listener
+--Output:none
+--Description: This function adds the scroll Speed to the x and y value 
+local function MoveChicken( event )
+	-- move the chicken, add the scroll speed to the x and y value 
+	chicken.y = chickenXMoving + chickenXMoving
+	-- make chicken disappear 
+	chicken.alpha = chicken.alpha - 0.002
+end
 
---Function 
-
-
+--make it run over and over again
+Runtime:addEventListener("enterFrame", MoveChicken)
 
 
 

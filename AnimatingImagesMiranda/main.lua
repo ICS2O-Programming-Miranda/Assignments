@@ -35,7 +35,7 @@ local function MoveSheep(event)
 	-- make the sheep appear
 	sheep.alpha = sheep.alpha + 0.1
 	-- make sheep spin
-	sheep.rotate = 40
+	sheep:rotate(5)
 end
 
 --make it run over and over again

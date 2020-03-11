@@ -11,7 +11,17 @@ display.setStatusBar(display.HiddenStatusBar)
 
 --global varaiables
 scrollSpeed = 3
+----------------------------------------------------------------------------------
+--SOUNDS
+----------------------------------------------------------------------------------
 
+--correct sound
+local sheepSound = audio.loadSound("Sounds/sheep sound.mp3")
+local sheepSoundChannel
+
+---------------------------------------------------------------------------------
+--ANIMALS
+----------------------------------------------------------------------------------
 --display background
 local backgroundImage = display.newImageRect("Images/farm.jpg", 1024, 768)
 backgroundImage.anchorX = 0
@@ -31,12 +41,18 @@ sheep.alpha = 0
 --Description: This function adds the scrollSpeed to the x-value
 local function MoveSheep(event)
 	-- add the scrollSpeed to the x-value
-	sheep.y = sheep.y - scrollSpeed
+	sheep.x = sheep.x - scrollSpeed
 	-- make the sheep appear
 	sheep.alpha = sheep.alpha + 0.1
 	-- make sheep spin
 	sheep:rotate(5)
 end
+
+--play sheep sound
+	sheepSoundChannel = audio.play(sheepSound)
+	timer.performWithDelay(1000, sheepSound)
+
+
 
 --make it run over and over again
 Runtime:addEventListener("enterFrame", MoveSheep)
@@ -79,8 +95,36 @@ local function MoveCow( event )
 	cow.y = cow.y - scrollSpeed
 	-- make cow disappear 
 	cow.alpha = cow.alpha - 0.003
+	--make cow shrink
+	cow.xScale = cow.xScale - 0.004
+	cow.yScale = cow.yScale - 0.004
 end
 
 --make it run over and over again
 Runtime:addEventListener("enterFrame", MoveCow)
 
+--------------------------------------------------------------------------------
+--TEXT
+--------------------------------------------------------------------------------
+--create a text object 
+ local textObject = display.newText ("Baaaaah", 0, 0, nil, 50)
+ 
+-- set colour of text 
+ textObject:setTextColor(255/255, 127/255, 80/255)
+
+ --set text location
+ textObject.x = 500
+ textObject.y = 450
+
+ --make text follow with the sheep
+--Function:MoveText
+--Input: This function accepts an event listener
+--Output:none
+--Description: This function adds the scroll Speed to the x value 
+local function MoveText( event )
+	-- move the cow, add the scroll speed to the x and y value 
+	textObject.x = textObject.x - scrollSpeed
+end
+
+--make it run over and over again
+Runtime:addEventListener("enterFrame", MoveText)

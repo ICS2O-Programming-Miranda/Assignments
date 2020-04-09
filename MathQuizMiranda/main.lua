@@ -42,6 +42,8 @@ local youWin
 local temp
 local correctionText
 local correctionAnswer = correctAnswer
+local counter 
+
 --------------------------------------------------------------------------------
 --SOUNDS
 --------------------------------------------------------------------------------
@@ -64,17 +66,18 @@ local gameOverSoundChannel
 --create and play background music
 local backgroundMusic = audio.loadSound("Sounds/Background music.mp3")
 local backgroundMusicChannel
-backgroundMusicChannel = audio.play(backgroundMusic)
+backgroundMusicChannel = audio.play(backgroundMusic, {loops = 3} )
 -----------------------------------------------------------------------------------
 --LOCAL FUNCTIONS
 -----------------------------------------------------------------------------------
 local function AskQuestion()
 	-- generate a random number between 1 and 4
-	randomOperator = math.random(1,4)
+	randomOperator = math.random(1,5)
 
 
 	--if the random operator is 1, then do addition
 	if (randomOperator == 1) then
+		--get random numbers
 		randomNumber1 = math.random(1,20)
 		randomNumber2 = math.random(1,20)
 
@@ -86,6 +89,7 @@ local function AskQuestion()
 
 		--otherwise, if random operator is 2, then do subtraction
 	elseif(randomOperator == 2) then
+		--get random numbers
 		randomNumber1 = math.random(1,20)
 		randomNumber2 = math.random(1,20)
 
@@ -97,6 +101,7 @@ local function AskQuestion()
 
 		--otherwise, if random operator is 3, then do multiplication
 	elseif(randomOperator == 3) then
+		--get random numbers
 		randomNumber1 = math.random(1,10)
 		randomNumber2 = math.random(1,10)
 
@@ -108,8 +113,9 @@ local function AskQuestion()
 
 	 	--otherwise, if random operator is 4, then do divison
 	elseif(randomOperator == 4) then
-		randomNumber1 = math.random(1,100)
-		randomNumber2 = math.random(1,100)
+		--get random numbers
+		randomNumber1 = math.random(1,10)
+		randomNumber2 = math.random(1,10)
 
 		--calculate the correct answer
 		correctAnswer = randomNumber1 * randomNumber2
@@ -122,6 +128,19 @@ local function AskQuestion()
 
 		--create question in text Object
 		questionObject.text = randomNumber1 .. "/" .. randomNumber2 .. "="
+
+	--otherwise, if random operator is 5, then do square root
+	elseif(randomOperator == 5) then
+		--get random number
+		randomNumber1 = math.random(1,10)
+
+		--calculate answer
+		local perfectSquare = randomNumber1 *randomNumber1
+		correctAnswer = math.sqrt(perfectSquare)
+
+		--create question
+		questionObject.text = "√".. perfectSquare
+
 	end
 
 end
@@ -134,6 +153,11 @@ end
 local function HideIncorrect()
 	incorrectObject.isVisible = false
 	AskQuestion()
+end
+
+local function HideCorrection()
+	correctionText.isVisible = false
+
 end
 
 local function NumericFieldListener( event )
@@ -157,13 +181,13 @@ local function NumericFieldListener( event )
 			incorrectObject.isVisible = true
 			timer.performWithDelay(3000,HideIncorrect)
 			incorrectSoundChannel = audio.play(incorrectSound)
-			lives = lives-1
-			correctionText.isVisible = true
-
+			correctionText.text = "The correct answer is "..correctAnswer
+			timer.performWithDelay(3000, HideCorrection)
 		end
 
 		--clear text field
 		event.target.text = ""
+
 	end
 end
 
@@ -179,7 +203,13 @@ local function UpdateTime()
 		secondsLeft = totalSeconds
 
 		--if time runs out a life is taken away
-		lives = lives - 1
+		if (secondsLeft == 0) then
+			lives = lives - 1
+
+		elseif(userAnswer ~= correctAnswer) then
+			lives = lives - 1
+		end
+
 
 		if (lives == 2) then
 			heart3.isVisible = false
@@ -191,8 +221,20 @@ local function UpdateTime()
 			numericField.isVisible = false
 			clockText.isVisible = false
 			gameOver.isVisible = true
-			timer.cancel(StartTimer)
+			timer.cancel(countDownTimer)
 			gameOverSoundChannel = audio.play(gameOverSound)
+			numCorrectObject.isVisible = false
+
+		if (numCorrect == 5) then
+			youWin.isVisible = true
+			questionObject.isVisible = false
+			numericField.isVisible = false
+			clockText.isVisible = false
+			timer.cancel(countDownTimer)
+			youWinSoundChannel = audio.play(youWinSound)
+			numCorrectObject.isVisible = false
+		end
+
 		end
 
 		AskQuestion()
@@ -206,14 +248,6 @@ local function StartTimer()
 
 end
 
-if (numCorrect == 5) then
-	youWin.isVisible = true
-	questionObject.isVisible = false
-	numericField.isVisible = false
-	clockText.isVisible = false
-	timer.cancel(StartTimer)
-	youWinSoundChannel = audio.play(youWinSound)
-end
 
 -------------------------------------------------------------------------------
 --OBJECT CREATION
@@ -274,9 +308,10 @@ numCorrectObject = display.newText("Correct Answers: " ..numCorrect ,display.con
 numCorrectObject:setTextColor(226/255, 74/255, 74/255)
 
 --create correction text
-correctionText = display.newText("The correct answer is "..correctionAnswer, display.contentWidth/2, display.contentHeight*4/5, nil ,50)
+correctionText = display.newText("" ,display.contentWidth/2, display.contentHeight*4/5, nil ,50)
 correctionText:setTextColor(226/255, 74/255, 74/255)
-correctionText.isVisible = false
+correctionText.isVisible = true
+
 --------------------------------------------------------------------------------
 --CALL FUNCTIONS
 --------------------------------------------------------------------------------

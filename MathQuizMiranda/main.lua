@@ -177,12 +177,14 @@ local function NumericFieldListener( event )
 			correctSoundChannel = audio.play(correctSound)
 			numCorrect = numCorrect + 1
 			numCorrectObject.text = "Correct Answers: " .. numCorrect 
+			secondsLeft = totalSeconds
 		else 
 			incorrectObject.isVisible = true
 			timer.performWithDelay(3000,HideIncorrect)
 			incorrectSoundChannel = audio.play(incorrectSound)
 			correctionText.text = "The correct answer is "..correctAnswer
 			timer.performWithDelay(3000, HideCorrection)
+			secondsLeft = totalSeconds
 		end
 
 		--clear text field
@@ -205,8 +207,9 @@ local function UpdateTime()
 		--if time runs out a life is taken away
 		if (secondsLeft == 0) then
 			lives = lives - 1
+		end
 
-		elseif(userAnswer ~= correctAnswer) then
+		if(userAnswer ~= correctAnswer) then
 			lives = lives - 1
 		end
 

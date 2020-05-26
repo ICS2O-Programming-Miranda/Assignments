@@ -1,8 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
 -- level1_screen.lua
--- Created by: Your Name
--- Date: Month Day, Year
+-- Created by: Miranda.B
+-- Date: May 25,2020
 -- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------
 

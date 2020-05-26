@@ -2,7 +2,7 @@
 --
 -- splash_screen.lua
 -- Created by:Miranda.B
--- Date: April 17, 2020
+-- Date: May 25, 2020
 -- Description: This is the splash screen of the game. It displays the 
 -- company logo that...
 -----------------------------------------------------------------------------------------
@@ -23,9 +23,14 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
  
 -- The local variables for this scene
-local star
-local scrollXSpeed = 8
-local scrollYSpeed = -3
+local littlePinkFlower
+local littleBlueFlower
+local bigBlueFlower
+local bigRedFlower
+
+local logoText
+
+local background
 ----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
@@ -36,12 +41,55 @@ local SplashScreenSoundsChannel
 -- LOCAL FUNCTIONS
 --------------------------------------------------------------------------------------------
 
--- The function that moves the star across the screen
-local function moveStar()
-    star.x = star.x - scrollXSpeed
-    star.y = star.y - scrollYSpeed
-     -- make the star fade out
-    star.alpha = star.alpha + 0.01
+-- The function that moves the littlePinkFlower across the screen
+local function movelittlePinkFlower()
+    --set scroll speed
+    local scrollXSpeed = 4
+    local scrollYSpeed = -2
+
+    littlePinkFlower.x = littlePinkFlower.x - scrollXSpeed
+    littlePinkFlower.y = littlePinkFlower.y + scrollYSpeed
+    -- make the littlePinkFlower fade out
+    littlePinkFlower.alpha = littlePinkFlower.alpha + 0.01
+
+    --make it rotate
+    littlePinkFlower:rotate(3)
+
+end
+
+local function movelittleBlueFlower()
+    --set scroll speed
+    local scrollXSpeed = 4
+    local scrollYSpeed = 2
+
+    littleBlueFlower.x = littleBlueFlower.x + scrollXSpeed
+    littleBlueFlower.y = littleBlueFlower.y + scrollYSpeed
+     -- make the littlePinkFlower fade out
+    littleBlueFlower.alpha = littleBlueFlower.alpha + 0.01
+
+    --make it rotate
+    littleBlueFlower:rotate(3)
+
+end
+
+local function movebigBlueFlower()
+    --set scroll speed
+    local scrollXSpeed = 4
+    local scrollYSpeed = -2
+
+    bigBlueFlower.x = bigBlueFlower.x + scrollXSpeed
+    bigBlueFlower.y = bigBlueFlower.y + scrollYSpeed
+
+end
+
+local function movebigRedFlower()
+    --set scroll speed
+    local scrollXSpeed = 4
+    local scrollYSpeed = 2
+
+    bigRedFlower.x = bigRedFlower.x - scrollXSpeed
+    bigRedFlower.y = bigRedFlower.y + scrollYSpeed
+
 end
 
 -- The function that will go to the main menu 
@@ -50,7 +98,7 @@ local function gotoMainMenu()
 end
 
 
------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
 
@@ -60,21 +108,59 @@ function scene:create( event )
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
 
-    -- set the background to be black
-    display.setDefault("background", 0, 0, 0)
+    --set background
+    background = display.newImageRect("Images/background.png", 1024, 768)
+    background.anchorX = 0
+    background.anchorY = 0
 
-    -- Insert the star image
-    star = display.newImageRect("Images/star.png", 200, 200)
+    -- Insert the littlePinkFlower image
+    littlePinkFlower = display.newImageRect("Images/littlePinkFlower.png", 150, 150)
 
-    -- set the initial x and y position of the star
-    star.x = 1024
-    star.y = display.contentHeight*1/3
+    -- set the initial x and y position of the littlePinkFlower
+    littlePinkFlower.x = 1024
+    littlePinkFlower.y = 768
 
-    --set star to full colour
-    star.alpha = 0
+    --set littlePinkFlower to invisible
+    littlePinkFlower.alpha = 0
+
+    --create little blue flowerr
+    littleBlueFlower = display.newImageRect("Images/littleBlueFlower.png", 150, 150)
+
+    --set initial x and y position
+    littleBlueFlower.x = 0
+    littleBlueFlower.y = 0
+    --set littleBlueFlower to invisible
+    littleBlueFlower.alpha = 0
+
+    --create big blue flowerr
+    bigBlueFlower = display.newImageRect("Images/bigBlueflower.png", 200, 200)
+
+    --set initial x and y position
+    bigBlueFlower.x = 0
+    bigBlueFlower.y = 768
+
+
+     --create big red flower
+    bigRedFlower = display.newImageRect("Images/bigredFlower.png", 200, 200)
+
+    --set initial x and y position
+    bigRedFlower.x = 1024
+    bigRedFlower.y = 0
+
+    logoText = display.newImageRect("Images/logoText.png", 600,200)
+    logoText.x = display.contentWidth/2
+    logoText.y = display.contentHeight/2
+
+
 
     -- Insert objects into the scene group in order to ONLY be associated with this scene
-    sceneGroup:insert( star )
+    sceneGroup:insert( background )
+    sceneGroup:insert( littlePinkFlower )
+    sceneGroup:insert( littleBlueFlower )
+    sceneGroup:insert( bigBlueFlower )
+    sceneGroup:insert( bigRedFlower )
+    sceneGroup:insert( logoText)
+
 
 end -- function scene:create( event )
 
@@ -98,14 +184,24 @@ function scene:show( event )
     -----------------------------------------------------------------------------------------
 
     elseif ( phase == "did" ) then
-        -- start the splash screen music
+        -- play  the splash screen music
         SplashScreenSoundsChannel = audio.play(splashScreenSound )
 
-        -- Call the moveBeetleship function as soon as we enter the frame.
-        Runtime:addEventListener("enterFrame", moveStar)
+        -- Call the littlePinkFlower function as soon as we enter the frame.
+        Runtime:addEventListener("enterFrame", movelittlePinkFlower)
+
+        -- Call the littleBlueFlower function as soon as we enter the frame.
+        Runtime:addEventListener("enterFrame", movelittleBlueFlower)
+
+        -- Call the bigBlueFlower function as soon as we enter the frame.
+        Runtime:addEventListener("enterFrame", movebigBlueFlower)
+
+        -- Call the bigBlueFlower function as soon as we enter the frame.
+        Runtime:addEventListener("enterFrame", movebigRedFlower)
+
 
         -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 2000, gotoMainMenu)          
+        timer.performWithDelay ( 3000, gotoMainMenu)          
         
     end
 

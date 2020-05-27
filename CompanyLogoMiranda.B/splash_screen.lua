@@ -35,7 +35,7 @@ local background
 ----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
-local splashScreenSound = audio.loadSound("Sounds/Splash screen sound.wav")
+local splashScreenSound = audio.loadSound("Sounds/newSplashSound.mp3")
 local SplashScreenSoundsChannel
 
 --------------------------------------------------------------------------------------------
@@ -216,8 +216,8 @@ function scene:show( event )
         Runtime:addEventListener("enterFrame", fadeLogoTextOut) 
 
         -- Go to the main menu screen after the given time.
-        timer.performWithDelay ( 3000, gotoMainMenu)          
-        
+        timer.performWithDelay ( 2000, gotoMainMenu)          
+    
     end
 
 end --function scene:show( event )

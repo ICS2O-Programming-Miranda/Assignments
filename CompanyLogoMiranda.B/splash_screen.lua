@@ -109,7 +109,7 @@ end
 
 -- The function that will go to the main menu 
 local function gotoMainMenu()
-    composer.gotoScene( "main_menu", {effect = "crossFade", time = 1000})
+    composer.gotoScene( "main_menu", {effect = "zoomInOutRotate", time = 1000})
 end
 
 ----------------------------------------------------------------------------------------

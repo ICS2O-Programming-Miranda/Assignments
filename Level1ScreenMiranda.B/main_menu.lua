@@ -38,6 +38,12 @@ local creditsButton
 local instructionsButton
 
 -----------------------------------------------------------------------------------------
+-- GLOBAL VARIABLES
+-----------------------------------------------------------------------------------------
+
+soundOn = true
+
+-----------------------------------------------------------------------------------------
 -- SOUNDS
 -----------------------------------------------------------------------------------------
 --create the Sounds
@@ -64,8 +70,55 @@ end
 
 -- Creating Transition to Instructions Screen
 local function InstructionsTransition( )
-    composer.gotoScene( "instructions", {effect = "flipFadeOutIn", time = 1000})
+    composer.gotoScene( "instructions_screen", {effect = "flipFadeOutIn", time = 1000})
 end  
+
+-------------------------------------------------------------------------------------------
+
+-- create the functions to mute and unmute the sound
+local function Mute(touch)
+    if (touch.phase == "ended")then
+     --pause the music
+     audio.pause(bkgMusicChannel)
+
+     --Turn the sound variable off
+     soundOn = false
+
+     --make unmute button invisible and mute button visible
+     muteButton.isVisible = true
+     unmuteButton.isVisible = false 
+    end
+end
+
+local function AddMuteUnMuteListeners()
+    unmuteButton:addEventListener("touch", Mute)
+end
+
+local function RemoveMuteUnMuteListeners()
+    unmuteButton:removeEventListener("touch", Mute)
+end
+
+local function UnMute(touch)
+    if (touch.phase == "ended")then
+     --play the music
+     audio.resume(bkgMusicChannel)
+
+     --Turn the sound variable on
+     soundOn = true
+
+     --make unmute button visible and mute button invisible
+     muteButton.isVisible = false
+     unmuteButton.isVisible = true
+    end 
+end
+
+local function AddUNMuteMuteListeners()
+    muteButton:addEventListener("touch", UnMute)
+end
+
+local function RemoveUnMuteMuteListeners()
+    muteButton:removeEventListener("touch", UnMute)
+end
 
 -----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
@@ -159,7 +212,30 @@ function scene:create( event )
     
 
     -----------------------------------------------------------------------------------------
+    --CREATE MUTE AND UNMUTE BUTTONS 
+    -----------------------------------------------------------------------------------------
 
+    --create the mute and unmute button 
+    muteButton = display.newImageRect ("Images/MuteButton.png", 100, 100)
+    muteButton.x = 950
+    muteButton.y = 700
+    muteButton.isVisible = false
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( muteButton )
+
+    unmuteButton = display.newImageRect ("Images/UnmuteButton.png", 100, 100)
+    unmuteButton.x = 950
+    unmuteButton.y = 700
+    unmuteButton.isVisible = true
+
+    -- Insert objects into the scene group in order to ONLY be associated with this scene
+    sceneGroup:insert( unmuteButton )
+
+
+
+
+    -----------------------------------------------------------------------------------------
     -- Associating button widgets with this scene
     sceneGroup:insert( playButton )
     sceneGroup:insert( creditsButton )
@@ -194,8 +270,21 @@ function scene:show( event )
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
      
-     --play background music 
-     bkgMusicChannel = audio.play(bkgMusic)
+     if(soundOn == true) then
+         --play bkg music only on level 1 screen
+         bkgMusicChannel = audio.play(bkgMusic, {loops = -1})
+         muteButton.isVisible = false
+         unmuteButton.isVisible = true
+
+        elseif (soundOn == false) then 
+         audio.pause(bkgMusicChannel)
+         muteButton.isVisible = true
+         unmuteButton.isVisible = false
+        end
+
+        --add mute and unmute functionality to the buttons
+        AddMuteUnMuteListeners()
+        AddUNMuteMuteListeners()
 
 
     end
@@ -228,6 +317,9 @@ function scene:hide( event )
 
         --stop bkg music
         audio.stop(bkgMusicChannel)
+
+        RemoveMuteUnMuteListeners()
+        RemoveUnMuteMuteListeners()
     end
 
 end -- function scene:hide( event )

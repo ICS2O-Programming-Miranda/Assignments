@@ -1,15 +1,6 @@
------------------------------------------------------------------------------------------
---
--- level1_screen.lua
--- Created by: Ms Raffin
--- Date: Nov. 22nd, 2014
--- Description: This is the level 1 screen of the game.
------------------------------------------------------------------------------------------
-
------------------------------------------------------------------------------------------
--- INITIALIZATIONS
------------------------------------------------------------------------------------------
-
+-------------------------------------------------------------------------------------------
+-- Level 2
+-- Date: Jan.19 2016
 -- Use Composer Libraries
 local composer = require( "composer" )
 local widget = require( "widget" )
@@ -34,8 +25,7 @@ local scene = composer.newScene( sceneName )
 -- The local variables for this scene
 pumpkinNumber = 0
 userLives = 3
-lvNumber = 1
-restarted = 0
+lvNumber = 2
 local bkg_image
 local analogStick
 local facingWhichDirection = "right"
@@ -86,15 +76,15 @@ local function RuntimeEvents( )
         -- Checking if the joystick is being held
         if joystickPressed == true then
 
-            -- Applying the force of the joystick to move the cupcakeCharacter
-            analogStick:move( cupcakeCharacter, 0.75 )
+            -- Applying the force of the joystick to move the flower
+            analogStick:move( flower, 0.75 )
 
         end
 
         -----------------------------------------------------------------------------------------
 
         -- Limiting each character's movement to the edge of the screen
-        ScreenLimit( cupcakeCharacter )
+        ScreenLimit( flower )
 
         -----------------------------------------------------------------------------------------
 
@@ -105,7 +95,7 @@ local function RuntimeEvents( )
             if direction == 1 or direction == 2 or direction == 8 then
 
                 -- Flipping the controlled charcter's direction
-                --cupcakeCharacter:scale( -1, 1 )
+                --flower:scale( -1, 1 )
 
                 -- Setting the status of the character's directions
                 facingWhichDirection = "right"
@@ -123,7 +113,7 @@ local function RuntimeEvents( )
             if direction == 4 or direction == 5 or direction == 6 then
 
                 -- Flipping the controlled charcter's direction
-                --cupcakeCharacter:scale( -1, 1 )
+                --flower:scale( -1, 1 )
 
                 -- Setting the status of the character's directions
                 facingWhichDirection = "left"
@@ -147,11 +137,12 @@ local function AddPhysicsBodies()
     physics.addBody(wall7, "static", {friction = 0})
     physics.addBody(wall8, "static", {friction = 0})
     physics.addBody(wall9, "static", {friction = 0})
+    physics.addBody(wall10, "static", {friction = 0})
     physics.addBody(pumpkin1, "static", {friction = 0})
     physics.addBody(pumpkin2, "static", {friction = 0})
     physics.addBody(pumpkin3, "static", {friction = 0})
     physics.addBody(pumpkin4, "static", {friction = 0})
-    physics.addBody(cupcakeCharacter, "dynamic", {friction = 0})
+    physics.addBody(flower, "dynamic", {friction = 0})
     physics.addBody(sun, "static", {friction = 0})
 end
 
@@ -166,11 +157,14 @@ local function RemovePhysicsBodies()
     physics.removeBody(wall7)
     physics.removeBody(wall8)
     physics.removeBody(wall9)
+    physics.removeBody(wall10)
+
+
     physics.removeBody(pumpkin1)
     physics.removeBody(pumpkin2)
     physics.removeBody(pumpkin3)
     physics.removeBody(pumpkin4)
-    physics.removeBody(cupcakeCharacter)
+    physics.removeBody(flower)
     physics.removeBody(sun)
 
 end
@@ -197,13 +191,13 @@ local function onLocalCollision( self, event )
 
     if ( event.phase == "began" ) then
         --print( self.myName .. ": collision began with " .. event.other.myName )
-        print ("*** cupcakeCharacter collision with pumpkin1")
+        print ("*** flower collision with pumpkin1")
         
 
     elseif ( event.phase == "ended" ) then
         --print( self.myName .. ": collision ended with " .. event.other.myName )
-        print ("*** end of cupcakeCharacter collision with pumpkin1")
-        composer.gotoScene( "Math", {effect = "flipFadeOutIn", time = 500})
+        print ("*** end of flower collision with pumpkin1")
+        composer.gotoScene( "Math2", {effect = "flipFadeOutIn", time = 500})
         
     end
 end
@@ -212,24 +206,23 @@ local function onLocalCollisionWithSun( self, event )
 
     if ( event.phase == "began" ) then
         --print( self.myName .. ": collision began with " .. event.other.myName )
-        print ("*** cupcakeCharacter collision with sun")
+        print ("*** flower collision with sun")
         
 
     elseif ( event.phase == "ended" ) then
         --print( self.myName .. ": collision ended with " .. event.other.myName )
-        print ("*** end of cupcakeCharacter collision with sun")
-        composer.gotoScene( "level2_screen", {effect = "flipFadeOutIn", time = 500})
-        restarted = 1
+        print ("*** end of flower collision with sun")
+        composer.gotoScene( "you_Win", {effect = "flipFadeOutIn", time = 500})
         
     end
 end
+    -- Creating a group that associates objects with the scene
 
 
 
 -- The function called when the screen doesn't exist
 function scene:create( event )
 
-    -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
     pumpkinNumber = 0
     userLives = 3
@@ -240,6 +233,7 @@ function scene:create( event )
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
     bkg_image.width = display.contentWidth
+
     bkg_image.height = display.contentHeight
 
     -- Walls
@@ -250,21 +244,21 @@ function scene:create( event )
     wall1:toFront()
     
 
-    wall2 = display.newRect(0, 0,display.contentWidth, 20)
+    wall2 = display.newRect(0, 0,display.contentWidth, 10)
     wall2.x = display.contentCenterX
     wall2.y = display.contentHeight
     wall2:setFillColor(0, 0, 0)
     wall2:toFront()
     
 
-    wall3 = display.newRect(0, 0, 20, display.contentHeight)
+    wall3 = display.newRect(0, 0, 10, display.contentHeight)
     wall3.x = display.contentWidth
     wall3.y = display.contentCenterY
     wall3:setFillColor(0, 0, 0)
     wall3:toFront()
     
 
-    wall4 = display.newRect(0, 0, 20, display.contentHeight)
+    wall4 = display.newRect(0, 0, 10, display.contentHeight)
     wall4.x = 0
     wall4.y = display.contentCenterY
     wall4:setFillColor(0, 0, 0)
@@ -277,33 +271,39 @@ function scene:create( event )
     wall5:setFillColor(0, 0, 0)
     wall5:toFront()
     
-
-    wall6 = display.newRect(0, 0, 10, display.contentHeight - 150)
+--Yellow
+    wall6 = display.newRect(0, 0, 10, display.contentHeight - 850)
     wall6.x = 420
-    wall6.y = display.contentCenterY + 75
+    wall6.y = display.contentCenterY - 375
     wall6:setFillColor(0, 0, 0)
     wall6:toFront()
-    
-
-    wall7 = display.newRect(0, 0, 10, display.contentHeight - 150)
-    wall7.x = 600
-    wall7.y = display.contentCenterY - 75
+--Orange
+    wall7 = display.newRect(0, 0, 10, display.contentHeight - 150 )
+    wall7.x = 420
+    wall7.y = display.contentCenterY + 108
     wall7:setFillColor(0, 0, 0)
     wall7:toFront()
     
-
-    wall8 = display.newRect(0, 0, 10, display.contentHeight - 281)
-    wall8.x = 694 + 99
-    wall8.y = display.contentCenterY
+--Red
+    wall8 = display.newRect(0, 0, 10, display.contentHeight - 150)
+    wall8.x = 600
+    wall8.y = display.contentCenterY - 75
     wall8:setFillColor(0, 0, 0)
     wall8:toFront()
     
-
-    wall9 = display.newRect(0, 0, 198, 10)
-    wall9.x = 694
-    wall9.y = display.contentCenterY + 238
+--Black
+    wall9 = display.newRect(0, 0, 10, display.contentHeight - 281)
+    wall9.x = 694 + 99
+    wall9.y = display.contentCenterY
     wall9:setFillColor(0, 0, 0)
     wall9:toFront()
+    
+--Purple
+    wall10 = display.newRect(0, 0, 198, 10)
+    wall10.x = 694
+    wall10.y = display.contentCenterY + 238
+    wall10:setFillColor(0, 0, 0)
+    wall10:toFront()
     
 
 
@@ -331,7 +331,7 @@ function scene:create( event )
    pumpkin2.anchorX = 0
    pumpkin2.anchorY = 0
    pumpkin2.x = 410
-   pumpkin2.y = 8   
+   pumpkin2.y = 23   
    
 
    pumpkin3 = display.newImageRect("Images/LevelPumpkin.png", 178, 148)
@@ -350,11 +350,11 @@ function scene:create( event )
 -----------------------------------------------------------------
 --Adding in the character.
 
-    cupcakeCharacter = display.newImageRect("Images/CupcakeCharacter.png", 80, 80)
-    cupcakeCharacter.anchorX = 0
-    cupcakeCharacter.anchorY = 0 
-    cupcakeCharacter.x = 60
-    cupcakeCharacter.y = 20
+    flower = display.newImageRect("Images/Characters.png", 80, 80)
+    flower.anchorX = 0
+    flower.anchorY = 0 
+    flower.x = 60
+    flower.y = 20
     
 
 -----------------------------------------------------------------
@@ -367,8 +367,8 @@ function scene:create( event )
    sun.y = 450   
 
     -- add collision event listeners
-    cupcakeCharacter.collision = onLocalCollision
-    cupcakeCharacter:addEventListener( "collision", cupcakeCharacter)
+    flower.collision = onLocalCollision
+    flower:addEventListener( "collision", flower)
 
     pumpkin2.collision = onLocalCollision
     pumpkin2:addEventListener( "collision", pumpkin2 ) 
@@ -397,7 +397,7 @@ function scene:create( event )
     sceneGroup:insert( pumpkin3 )
     sceneGroup:insert( pumpkin4 )
     sceneGroup:insert( sun )
-    sceneGroup:insert( cupcakeCharacter )
+    sceneGroup:insert( flower )
     sceneGroup:insert( wall1 )
     sceneGroup:insert( wall2 )
     sceneGroup:insert( wall3 )
@@ -407,6 +407,7 @@ function scene:create( event )
     sceneGroup:insert( wall7 )
     sceneGroup:insert( wall8 )
     sceneGroup:insert( wall9 )
+    sceneGroup:insert( wall10 )
 
 end --function scene:create( event )
 -----------------------------------------------------------------
@@ -543,7 +544,7 @@ function scene:hide( event )
         -- Removing the listener which listens for the usage of the joystick
         analogStick:removeEventListener( "touch", Movement )
 
-        cupcakeCharacter:removeEventListener( "collision", cupcakeCharacter)
+        flower:removeEventListener( "collision", flower)
         pumpkin1:removeEventListener( "collision", pumpkin1 )
         RemovePhysicsBodies()
         -- start the physics engine

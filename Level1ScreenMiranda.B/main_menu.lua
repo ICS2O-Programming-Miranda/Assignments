@@ -2,7 +2,7 @@
 --
 -- main_menu.lua
 -- Created by: Miranda.B 
--- Date: May 25,2020
+-- Date: June 3,2020
 -- Description: This is the main menu, displaying the credits, instructions & play buttons.
 -----------------------------------------------------------------------------------------
 

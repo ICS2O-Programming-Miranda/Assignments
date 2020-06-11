@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------
--- Title: SampleVideoGame
+-- Title: Level1Screen
 -- Name: Miranda.B
 -- Course: ICS2O
 -- This program...

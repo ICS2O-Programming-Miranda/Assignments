@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
--- level2_screen.lua
--- Created by: Ms Raffin
--- Date: Nov. 22nd, 2014
--- Description: This is the level 1 screen of the game.
+-- you_Win.lua
+-- Created by: Miranda.B
+-- Date: June 3, 2020
+-- Description: This is the you win screen.
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -32,6 +32,13 @@ local scene = composer.newScene( sceneName )
 local bkg_image
 
 -----------------------------------------------------------------------------------------
+-- SOUNDS
+-----------------------------------------------------------------------------------------
+--create the you win sound
+local YouWinSound = audio.loadSound(Sounds/YouWinSound.mp3)
+local YouWinSoundChannel
+
+-----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
 
@@ -44,7 +51,7 @@ function scene:create( event )
     -----------------------------------------------------------------------------------------
 
     -- Insert the background image
-    bkg_image = display.newImageRect("Images/You Win Screen.png", display.contentWidth, display.contentHeight)
+    bkg_image = display.newImageRect("Images/YouWinScreen.png", display.contentWidth, display.contentHeight)
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
     bkg_image.width = display.contentWidth
@@ -56,7 +63,7 @@ function scene:create( event )
         -- Insert background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image )
 
-     -- Creating Back Button
+       -- Creating Back Button
     backButton = widget.newButton( 
     {
         -- Setting Position
@@ -64,12 +71,12 @@ function scene:create( event )
         y = display.contentHeight*15/16,
 
         -- Setting Dimensions
-        -- width = 1000,
-        -- height = 106,
+        width = 200,
+        height = 100,
 
         -- Setting Visual Properties
-        defaultFile = "Images/BackButton.png",
-        overFile = "Images/BackButtonPressed.png",
+        defaultFile = "Images/Back Button Unpressed.png",
+        overFile = "Images/Back Button Pressed.png",
 
         -- Setting Functional Properties
         onRelease = BackTransition
@@ -102,6 +109,9 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
 
+        --play the YouWinSound 
+        YouWinSoundChannel = audio.play(YouWinSound)
+
     end
 
 end --function scene:show( event )
@@ -126,6 +136,9 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+
+        -- stop the YouWinSound
+        audio.stop(YouWinSoundChannel)
     end
 
 end --function scene:hide( event )

@@ -2,7 +2,7 @@
 --
 -- splash_screen.lua
 -- Created by:Miranda.B
--- Date: May 25, 2020
+-- Date: June 3, 2020
 -- Description: This is the splash screen of the game. It displays the 
 -- company logo that fades and moves out after a second. two flowers rotates while
 --moving and two other flowers shrink while moving.

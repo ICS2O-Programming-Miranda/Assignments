@@ -1,8 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
 -- level1_screen.lua
--- Created by: Ms Raffin
--- Date: Nov. 22nd, 2014
+-- Created by:Miranda.B
+-- Date: June 3,2020
 -- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ local scene = composer.newScene( sceneName )
 -----------------------------------------------------------------------------------------
 
 -- The local variables for this scene
-pumpkinNumber = 0
+ChocolateNumber = 0
 userLives = 3
 lvNumber = 1
 restarted = 0
@@ -147,12 +147,15 @@ local function AddPhysicsBodies()
     physics.addBody(wall7, "static", {friction = 0})
     physics.addBody(wall8, "static", {friction = 0})
     physics.addBody(wall9, "static", {friction = 0})
-    physics.addBody(pumpkin1, "static", {friction = 0})
-    physics.addBody(pumpkin2, "static", {friction = 0})
-    physics.addBody(pumpkin3, "static", {friction = 0})
-    physics.addBody(pumpkin4, "static", {friction = 0})
+    physics.addBody(wall10, "static", {friction = 0})
+    physics.addBody(wall11, "static", {friction = 0})
+    physics.addBody(wall12, "static", {friction = 0})
+    physics.addBody(chocolate1, "static", {friction = 0})
+    physics.addBody(chocolate2, "static", {friction = 0})
+    physics.addBody(chocolate3, "static", {friction = 0})
+    physics.addBody(chocolate4, "static", {friction = 0})
     physics.addBody(cupcakeCharacter, "dynamic", {friction = 0})
-    physics.addBody(sun, "static", {friction = 0})
+    physics.addBody(iceCream, "static", {friction = 0})
 end
 
 local function RemovePhysicsBodies()
@@ -166,12 +169,15 @@ local function RemovePhysicsBodies()
     physics.removeBody(wall7)
     physics.removeBody(wall8)
     physics.removeBody(wall9)
-    physics.removeBody(pumpkin1)
-    physics.removeBody(pumpkin2)
-    physics.removeBody(pumpkin3)
-    physics.removeBody(pumpkin4)
+    physics.removeBody(wall10)
+    physics.removeBody(wall11)
+    physics.removeBody(wall12)
+    physics.removeBody(chocolate1)
+    physics.removeBody(chocolate2)
+    physics.removeBody(chocolate3)
+    physics.removeBody(chocolate4)
     physics.removeBody(cupcakeCharacter)
-    physics.removeBody(sun)
+    physics.removeBody(iceCream)
 
 end
 
@@ -197,29 +203,28 @@ local function onLocalCollision( self, event )
 
     if ( event.phase == "began" ) then
         --print( self.myName .. ": collision began with " .. event.other.myName )
-        print ("*** cupcakeCharacter collision with pumpkin1")
+        print ("*** cupcakeCharacter collision withchocolate1")
         
 
     elseif ( event.phase == "ended" ) then
         --print( self.myName .. ": collision ended with " .. event.other.myName )
-        print ("*** end of cupcakeCharacter collision with pumpkin1")
+        print ("*** end of cupcakeCharacter collision withchocolate1")
         composer.gotoScene( "Math", {effect = "flipFadeOutIn", time = 500})
         
     end
 end
 
-local function onLocalCollisionWithSun( self, event )
+local function onLocalCollisionWithIceCream( self, event )
 
     if ( event.phase == "began" ) then
         --print( self.myName .. ": collision began with " .. event.other.myName )
-        print ("*** cupcakeCharacter collision with sun")
+        print ("*** cupcakeCharacter collision with iceCream")
         
 
     elseif ( event.phase == "ended" ) then
         --print( self.myName .. ": collision ended with " .. event.other.myName )
-        print ("*** end of cupcakeCharacter collision with sun")
-        composer.gotoScene( "level2_screen", {effect = "flipFadeOutIn", time = 500})
-        restarted = 1
+        print ("*** end of cupcakeCharacter collision with iceCream")
+        composer.gotoScene( "you_Win", {effect = "flipFadeOutIn", time = 500})
         
     end
 end
@@ -231,12 +236,12 @@ function scene:create( event )
 
     -- Creating a group that associates objects with the scene
     local sceneGroup = self.view
-    pumpkinNumber = 0
+    ChocolateNumber = 0
     userLives = 3
     -----------------------------------------------------------------------------------------
 
     -- Insert the background image
-    bkg_image = display.newImageRect("Images/level1.png", display.contentWidth, display.contentHeight)
+    bkg_image = display.newImageRect("Images/GameBkg.png", display.contentWidth, display.contentHeight)
     bkg_image.x = display.contentCenterX
     bkg_image.y = display.contentCenterY
     bkg_image.width = display.contentWidth
@@ -271,41 +276,63 @@ function scene:create( event )
     wall4:toFront()
     
 
-    wall5 = display.newRect(0, 0, 10, display.contentHeight - 150)
-    wall5.x = 210
-    wall5.y = display.contentCenterY - 75
+    wall5 = display.newRect(0, 0, 10, display.contentHeight - 240)
+    wall5.x = 0
+    wall5.y = 170
+    wall5:rotate(90)
     wall5:setFillColor(0, 0, 0)
     wall5:toFront()
     
 
-    wall6 = display.newRect(0, 0, 10, display.contentHeight - 150)
+    wall6 = display.newRect(0, 0, 10, display.contentHeight - 30)
     wall6.x = 420
-    wall6.y = display.contentCenterY + 75
+    wall6.y = 190
     wall6:setFillColor(0, 0, 0)
     wall6:toFront()
     
 
-    wall7 = display.newRect(0, 0, 10, display.contentHeight - 150)
-    wall7.x = 600
-    wall7.y = display.contentCenterY - 75
+    wall7 = display.newRect(0, 0, 10, display.contentHeight - 550)
+    wall7.x = 270
+    wall7.y = 273
     wall7:setFillColor(0, 0, 0)
     wall7:toFront()
     
 
-    wall8 = display.newRect(0, 0, 10, display.contentHeight - 281)
-    wall8.x = 694 + 99
-    wall8.y = display.contentCenterY
+    wall8 = display.newRect(0, 0, 10, display.contentHeight - 500)
+    wall8.x = 140
+    wall8.y = 385
+    wall8:rotate(90)
     wall8:setFillColor(0, 0, 0)
     wall8:toFront()
     
 
     wall9 = display.newRect(0, 0, 198, 10)
-    wall9.x = 694
-    wall9.y = display.contentCenterY + 238
+    wall9.x = 325
+    wall9.y = 560
     wall9:setFillColor(0, 0, 0)
     wall9:toFront()
+
+
+    wall10 = display.newRect(0, 0, 10, display.contentHeight - 150)
+    wall10.x = 600
+    wall10.y = 500
+    wall10:setFillColor(0, 0, 0)
+    wall10:toFront()
     
 
+    wall11 = display.newRect(0, 0, 10, display.contentHeight - 580)
+    wall11.x = 690
+    wall11.y = 190
+    wall11:rotate(90)
+    wall11:setFillColor(0, 0, 0)
+    wall11:toFront()
+
+
+    wall12 = display.newRect(0, 0, 10, display.contentHeight - 370)
+    wall12.x = 780
+    wall12.y = 384
+    wall12:setFillColor(0, 0, 0)
+    wall12:toFront()
 
     --Creating the pumpkins.
 
@@ -320,37 +347,37 @@ function scene:create( event )
     analogStick.alpha = 0.5
 
 
-   pumpkin1 = display.newImageRect("Images/LevelPumpkin.png", 178, 148)
-   pumpkin1.anchorX = 0
-   pumpkin1.anchorY = 0
-   pumpkin1.x = 210
-   pumpkin1.y = 600
+  chocolate1 = display.newImageRect("Images/ChocolateBar.png", 130, 140)
+  chocolate1.anchorX = 0
+  chocolate1.anchorY = 0
+  chocolate1.x = 250
+  chocolate1.y = 400
    
 
-   pumpkin2 = display.newImageRect("Images/LevelPumpkin.png", 178, 148)
-   pumpkin2.anchorX = 0
-   pumpkin2.anchorY = 0
-   pumpkin2.x = 410
-   pumpkin2.y = 8   
+   chocolate2 = display.newImageRect("Images/ChocolateBar.png", 130, 140)
+   chocolate2.anchorX = 0
+   chocolate2.anchorY = 0
+   chocolate2.x = 410
+   chocolate2.y = 600  
    
 
-   pumpkin3 = display.newImageRect("Images/LevelPumpkin.png", 178, 148)
-   pumpkin3.anchorX = 0
-   pumpkin3.anchorY = 0
-   pumpkin3.x = 820
-   pumpkin3.y = 600  
+   chocolate3 = display.newImageRect("Images/ChocolateBar.png", 130, 140)
+   chocolate3.anchorX = 0
+   chocolate3.anchorY = 0
+   chocolate3.x = 800
+   chocolate3.y = 30
    
 
-   pumpkin4 = display.newImageRect("Images/LevelPumpkin.png", 178, 148)
-   pumpkin4.anchorX = 0
-   pumpkin4.anchorY = 0
-   pumpkin4.x = 820
-   pumpkin4.y = 8 
+  chocolate4 = display.newImageRect("Images/ChocolateBar.png", 130, 140)
+  chocolate4.anchorX = 0
+  chocolate4.anchorY = 0
+  chocolate4.x = 840
+  chocolate4.y = 600
 
 -----------------------------------------------------------------
 --Adding in the character.
 
-    cupcakeCharacter = display.newImageRect("Images/CupcakeCharacter.png", 80, 80)
+    cupcakeCharacter = display.newImageRect("Images/CupcakeCharacter.png", 100, 100)
     cupcakeCharacter.anchorX = 0
     cupcakeCharacter.anchorY = 0 
     cupcakeCharacter.x = 60
@@ -358,32 +385,32 @@ function scene:create( event )
     
 
 -----------------------------------------------------------------
--- Adding in the sun.
+-- Adding in the iceCream.
 
-   sun = display.newImageRect("Images/Sun.png", 150, 150)
-   sun.anchorX = 0
-   sun.anchorY = 0
-   sun.x = 620
-   sun.y = 450   
+   iceCream = display.newImageRect("Images/IceCream.png", 170, 170)
+   iceCream.anchorX = 0
+   iceCream.anchorY = 0
+   iceCream.x = 610
+   iceCream.y = 260 
 
     -- add collision event listeners
     cupcakeCharacter.collision = onLocalCollision
     cupcakeCharacter:addEventListener( "collision", cupcakeCharacter)
 
-    pumpkin2.collision = onLocalCollision
-    pumpkin2:addEventListener( "collision", pumpkin2 ) 
+    chocolate2.collision = onLocalCollision
+    chocolate2:addEventListener( "collision", chocolate2 ) 
 
-    pumpkin3.collision = onLocalCollision
-    pumpkin3:addEventListener( "collision", pumpkin3 )
+    chocolate3.collision = onLocalCollision
+    chocolate3:addEventListener( "collision", chocolate3 )
 
-    pumpkin4.collision = onLocalCollision
-    pumpkin4:addEventListener( "collision", pumpkin4 ) 
+   chocolate4.collision = onLocalCollision
+   chocolate4:addEventListener( "collision",chocolate4 ) 
 
-    pumpkin1.collision = onLocalCollision
-    pumpkin1:addEventListener( "collision", pumpkin1 )
+   chocolate1.collision = onLocalCollision
+   chocolate1:addEventListener( "collision",chocolate1 )
 
-    sun.collision = onLocalCollisionWithSun
-    sun:addEventListener( "collision", sun )  
+    iceCream.collision = onLocalCollisionWithIceCream
+    iceCream:addEventListener( "collision", iceCream )  
 
     
     -- Send the background image to the back layer so all other objects can be on top
@@ -392,11 +419,11 @@ function scene:create( event )
         -- Insert background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image )
     sceneGroup:insert( analogStick )   
-    sceneGroup:insert( pumpkin1 ) 
-    sceneGroup:insert( pumpkin2 ) 
-    sceneGroup:insert( pumpkin3 )
-    sceneGroup:insert( pumpkin4 )
-    sceneGroup:insert( sun )
+    sceneGroup:insert(chocolate1 ) 
+    sceneGroup:insert( chocolate2 ) 
+    sceneGroup:insert( chocolate3 )
+    sceneGroup:insert(chocolate4 )
+    sceneGroup:insert( iceCream )
     sceneGroup:insert( cupcakeCharacter )
     sceneGroup:insert( wall1 )
     sceneGroup:insert( wall2 )
@@ -407,26 +434,12 @@ function scene:create( event )
     sceneGroup:insert( wall7 )
     sceneGroup:insert( wall8 )
     sceneGroup:insert( wall9 )
+    sceneGroup:insert( wall10 )
+    sceneGroup:insert( wall11 )
+    sceneGroup:insert( wall12 )
 
 end --function scene:create( event )
 -----------------------------------------------------------------
-
-
------------------------------------------------------------------------------------------
--- GLOBAL SCENE FUNCTIONS
------------------------------------------------------------------------------------------
---This function causes the pumpkins to move up then down.
--- Function to move top
---function movePumpkin1 ()
-  --  timer.performWithDelay(800, movePumkin1Down) 
-    --pumpkin1.y = pumpkin1.y - 2    
---end
-  
---function movePumkin1Down()
-  -- pumpkin1.y = pumpkin1.y + 2
---end   
-
-
 
 -----------------------------------------------------------------------------------------------
 -- The function called when the scene is issued to appear on screen
@@ -453,39 +466,39 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
 
-        if (pumpkinNumber == 1) then
+        if (ChocolateNumber == 1) then
 
-            pumpkin1.x = -250
-            pumpkin1.y = -250
-            pumpkin1.collision = offLocalCollision
-            pumpkin1:removeEventListener( "collision", pumpkin1 )
-
-        end
-
-        if (pumpkinNumber == 2) then
-
-            pumpkin2.x = -250
-            pumpkin2.y = -250
-            pumpkin2.collision = offLocalCollision
-            pumpkin2:removeEventListener( "collision", pumpkin2 )
+           chocolate1.x = -250
+           chocolate1.y = -250
+           chocolate1.collision = offLocalCollision
+           chocolate1:removeEventListener( "collision",chocolate1 )
 
         end
 
-        if (pumpkinNumber == 3) then
+        if (ChocolateNumber == 2) then
 
-            pumpkin3.x = -250
-            pumpkin3.y = -250
-            pumpkin3.collision = offLocalCollision
-            pumpkin3:removeEventListener( "collision", pumpkin3 )
+            chocolate2.x = -250
+            chocolate2.y = -250
+            chocolate2.collision = offLocalCollision
+            chocolate2:removeEventListener( "collision", chocolate2 )
 
         end
 
-        if (pumpkinNumber == 4) then
+        if (ChocolateNumber == 3) then
 
-            pumpkin4.x = -250
-            pumpkin4.y = -250
-            pumpkin4.collision = offLocalCollision
-            pumpkin4:removeEventListener( "collision", pumpkin4 )
+            chocolate3.x = -250
+            chocolate3.y = -250
+            chocolate3.collision = offLocalCollision
+            chocolate3:removeEventListener( "collision", chocolate3 )
+
+        end
+
+        if (ChocolateNumber == 4) then
+
+           chocolate4.x = -250
+           chocolate4.y = -250
+           chocolate4.collision = offLocalCollision
+           chocolate4:removeEventListener( "collision",chocolate4 )
 
         end
 
@@ -544,7 +557,7 @@ function scene:hide( event )
         analogStick:removeEventListener( "touch", Movement )
 
         cupcakeCharacter:removeEventListener( "collision", cupcakeCharacter)
-        pumpkin1:removeEventListener( "collision", pumpkin1 )
+       chocolate1:removeEventListener( "collision",chocolate1 )
         RemovePhysicsBodies()
         -- start the physics engine
         physics.stop()

@@ -1,8 +1,8 @@
 -----------------------------------------------------------------------------------------
 --
--- game_level1.lua
--- Created by: Jadon
--- Date: Nov. 22nd, 2014
+-- Math.lua
+-- Created by: Miranda
+-- Date: June 3,2020
 -- Description: This is the level 1 screen of the game.
 -----------------------------------------------------------------------------------------
 
@@ -80,7 +80,7 @@ local numberOfLevelQuestions = 0
 local questionText = display.newText( "" , 0, 0, nil, 100)
 --initiate variables and the question text
 questionText.x = display.contentWidth * 0.3
-questionText.y = display.contentHeight * 0.9
+questionText.y = display.contentHeight * 0.5
 
 -- Variables containing the user answer and the actual answer
 local answer = 0
@@ -113,7 +113,7 @@ alternateAnswerBox3 = display.newText("", 0, 0, nil, 100)
 -- the black box where the user will drag the answer
 local userAnswerBoxPlaceholder = display.newImageRect("Images/userAnswerBoxPlaceholder.png",  130, 130, 0, 0)
 userAnswerBoxPlaceholder.x = display.contentWidth * 0.6
-userAnswerBoxPlaceholder.y = display.contentHeight * 0.9
+userAnswerBoxPlaceholder.y = display.contentHeight * 0.5
 
 -----------------------------------------------------------------------------------------
 -- LOCAL FUNCTIONS
@@ -126,9 +126,6 @@ local function backToLVone()
     composer.gotoScene( "level1_screen", {effect = "zoomInOutFade", time = 1000})
 end
 
-local function backToLVtwo()
-    composer.gotoScene( "level2_screen", {effect = "zoomInOutFade", time = 1000})
-end
 
 local function LevelStartDelay()
     timer.performWithDelay(1600, LevelStart)
@@ -360,20 +357,20 @@ function UserAnswerInput()
 
             check.isVisible = true
 
-            pumpkinNumber = pumpkinNumber + 1
+            ChocolateNumber = ChocolateNumber + 1
             
             timer.performWithDelay( 2000, hideCheckRestart)             
         end
 
-        if (userAnswer == answer)and
-           (lvNumber == 2) then
+        --if (userAnswer == answer)and
+          -- (lvNumber == 2) then
 
-            check.isVisible = true
+           -- check.isVisible = true
 
-            pumpkinNumber = pumpkinNumber + 1
+            --ChocolateNumber = ChocolateNumber + 1
             
-            timer.performWithDelay( 2000, hideCheckRestart2)             
-        end
+            --timer.performWithDelay( 2000, hideCheckRestart2)             
+        --end
 
 
         if (userAnswer ~= answer) then
@@ -568,7 +565,7 @@ function scene:create( event )
     ----------------------------------------------------------------------------------
 
     -- Insert the background image
-    bkg_image = display.newImageRect("Images/Game Screen.png", 2048, 1536)
+    bkg_image = display.newImageRect("Images/QuestionBkg.png", 2048, 1536)
     bkg_image.anchorX = 0
     bkg_image.anchorY = 0
     bkg_image.width = display.contentWidth

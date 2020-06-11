@@ -1,9 +1,9 @@
 -----------------------------------------------------------------------------------------
 --
--- level2_screen.lua
--- Created by: Ms Raffin
--- Date: Nov. 22nd, 2014
--- Description: This is the level 1 screen of the game.
+-- you_Lose.lua
+-- Created by: Miranda.B
+-- Date:June 3, 2020
+-- Description: This is the you lose screen
 -----------------------------------------------------------------------------------------
 
 -----------------------------------------------------------------------------------------
@@ -34,6 +34,13 @@ local backButton
 restarted = 1
 
 -----------------------------------------------------------------------------------------
+-- SOUNDS
+-----------------------------------------------------------------------------------------
+--create YouLoseSound
+local YouLoseSound = audio.loadSound(Sound/YouLoseSound.mp3)
+local YouLoseSoundChannel
+
+-----------------------------------------------------------------------------------------
 -- GLOBAL SCENE FUNCTIONS
 -----------------------------------------------------------------------------------------
 
@@ -58,7 +65,7 @@ function scene:create( event )
         -- Insert background image into the scene group in order to ONLY be associated with this scene
     sceneGroup:insert( bkg_image )
 
-      -- Creating Back Button
+     -- Creating Back Button
     backButton = widget.newButton( 
     {
         -- Setting Position
@@ -66,19 +73,20 @@ function scene:create( event )
         y = display.contentHeight*15/16,
 
         -- Setting Dimensions
-        -- width = 1000,
-        -- height = 106,
+        width = 200,
+        height = 100,
 
         -- Setting Visual Properties
-        defaultFile = "Images/BackButton.png",
-        overFile = "Images/BackButtonPressed.png",
+        defaultFile = "Images/Back Button Unpressed.png",
+        overFile = "Images/Back Button Pressed.png",
 
         -- Setting Functional Properties
         onRelease = BackTransition
 
     } )
     
- sceneGroup:insert( backButton )
+ sceneGroup:insert( backButton )    
+    
 end --function scene:create( event )
 ------------------------------------------------------------------------------------------
 --Button functions.
@@ -109,6 +117,9 @@ function scene:show( event )
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
 
+        --play YouLoseSound
+        YouLoseSoundChannel = audio.play(YouLoseSound)
+
     end
 
 end --function scene:show( event )
@@ -133,6 +144,9 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
+
+        --stop the YouLoseSound
+        audio.stop(YouLoseSoundChannel)
     end
 
 end --function scene:hide( event )

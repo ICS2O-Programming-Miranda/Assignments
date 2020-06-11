@@ -2,8 +2,7 @@
 --
 -- instructions.lua
 -- Created by: Miranda.B
--- Special thanks to Wal Wal for helping in the design of this framework.
--- Date:May 25,2020
+-- Date:June 3,2020
 -- Description: This is the instructions page, displaying a back button to the main menu.
 -----------------------------------------------------------------------------------------
 

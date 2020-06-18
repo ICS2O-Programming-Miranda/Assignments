@@ -72,6 +72,18 @@ local userAnswerBoxPlaceholder
 local answerText
 
 local numberOfLevelQuestions = 0
+
+-----------------------------------------------------------------------------------------
+-- SOUNDS
+-----------------------------------------------------------------------------------------
+--create the correct sound
+local correctSound = audio.loadSound("Sounds/correctSound.mp3")
+local correctSoundChannel
+
+--create the incorrect sound
+local incorrectSound = audio.loadSound("Sounds/incorrecttSound.wav")
+local incorrectSoundChannel
+
 -----------------------------------------------------------------------------------------
 -- INITIALIZATIONS
 -----------------------------------------------------------------------------------------
@@ -355,6 +367,8 @@ function UserAnswerInput()
         if (userAnswer == answer)and
            (lvNumber == 1) then
 
+            correctSoundChannel = audio.play(correctSound)
+
             check.isVisible = true
 
             ChocolateNumber = ChocolateNumber + 1
@@ -377,6 +391,7 @@ function UserAnswerInput()
             userLives = userLives - 1  
             liveText.text = "Lives: " .. userLives
 
+            incorrectSoundChannel = audio.play(incorrectSound)
             
             x.isVisible = true
 

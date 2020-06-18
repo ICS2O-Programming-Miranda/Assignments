@@ -270,7 +270,7 @@ function scene:show( event )
     -- Example: start timers, begin animation, play audio, etc.
     elseif ( phase == "did" ) then       
      
-     if(soundOn == true) then
+        if(soundOn == true) then
          --play bkg music only on level 1 screen
          bkgMusicChannel = audio.play(bkgMusic, {loops = -1})
          muteButton.isVisible = false

@@ -37,7 +37,7 @@ restarted = 1
 -- SOUNDS
 -----------------------------------------------------------------------------------------
 --create YouLoseSound
-local YouLoseSound = audio.loadSound(Sound/YouLoseSound.mp3)
+local YouLoseSound = audio.loadSound("Sound/YouLoseSound.wav")
 local YouLoseSoundChannel
 
 -----------------------------------------------------------------------------------------

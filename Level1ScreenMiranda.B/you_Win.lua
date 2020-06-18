@@ -35,7 +35,7 @@ local bkg_image
 -- SOUNDS
 -----------------------------------------------------------------------------------------
 --create the you win sound
-local YouWinSound = audio.loadSound(Sounds/YouWinSound.mp3)
+local YouWinSound = audio.loadSound("Sounds/YouWinSound.mp3")
 local YouWinSoundChannel
 
 -----------------------------------------------------------------------------------------

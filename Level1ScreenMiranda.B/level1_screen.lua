@@ -41,6 +41,14 @@ local analogStick
 local facingWhichDirection = "right"
 local joystickPressed = false
 
+
+-----------------------------------------------------------------------------------------
+-- SOUNDS
+-----------------------------------------------------------------------------------------
+--create leve1 bkg sound 
+local level1Music = audio.loadSound("Sounds/level1Music.mp3")
+local level1MusicChannel
+
 -----------------------------------------------------------------------------------------
 -- L0CAL FUNCTIONS
 -----------------------------------------------------------------------------------------
@@ -229,6 +237,53 @@ local function onLocalCollisionWithIceCream( self, event )
     end
 end
 
+---------------------------------------------------------------------------------------
+
+-- create the functions to mute and unmute the sound
+local function Mute(touch)
+    if (touch.phase == "ended")then
+     --pause the music
+     audio.pause(level1MusicChannel)
+
+     --Turn the sound variable off
+     soundOn = false
+
+     --make unmute button invisible and mute button visible
+     muteButton.isVisible = true
+     unmuteButton.isVisible = false 
+    end
+end
+
+local function AddMuteUnMuteListeners()
+    unmuteButton:addEventListener("touch", Mute)
+end
+
+local function RemoveMuteUnMuteListeners()
+    unmuteButton:removeEventListener("touch", Mute)
+end
+
+local function UnMute(touch)
+    if (touch.phase == "ended")then
+     --play the music
+     audio.resume(level1MusicChannel)
+
+     --Turn the sound variable on
+     soundOn = true
+
+     --make unmute button visible and mute button invisible
+     muteButton.isVisible = false
+     unmuteButton.isVisible = true
+    end 
+end
+
+local function AddUNMuteMuteListeners()
+    muteButton:addEventListener("touch", UnMute)
+end
+
+local function RemoveUnMuteMuteListeners()
+    muteButton:removeEventListener("touch", UnMute)
+end
+
 
 
 -- The function called when the screen doesn't exist
@@ -410,8 +465,25 @@ function scene:create( event )
    chocolate1:addEventListener( "collision",chocolate1 )
 
     iceCream.collision = onLocalCollisionWithIceCream
-    iceCream:addEventListener( "collision", iceCream )  
+    iceCream:addEventListener( "collision", iceCream ) 
 
+    -----------------------------------------------------------------------------------------
+    --CREATE MUTE AND UNMUTE BUTTONS 
+    -----------------------------------------------------------------------------------------
+
+    --create the mute and unmute button 
+    muteButton = display.newImageRect ("Images/MuteButton.png", 100, 100)
+    muteButton.x = 140
+    muteButton.y = 280
+    muteButton.isVisible = false
+
+
+    unmuteButton = display.newImageRect ("Images/UnmuteButton.png", 100, 100)
+    unmuteButton.x = 140
+    unmuteButton.y = 280
+    unmuteButton.isVisible = true
+
+    ----------------------------------------------------------------------------------------------
     
     -- Send the background image to the back layer so all other objects can be on top
     
@@ -437,6 +509,8 @@ function scene:create( event )
     sceneGroup:insert( wall10 )
     sceneGroup:insert( wall11 )
     sceneGroup:insert( wall12 )
+    sceneGroup:insert( muteButton )
+    sceneGroup:insert( unmuteButton ) 
 
 end --function scene:create( event )
 -----------------------------------------------------------------
@@ -465,6 +539,22 @@ function scene:show( event )
         -- Called when the scene is now on screen.
         -- Insert code here to make the scene come alive.
         -- Example: start timers, begin animation, play audio, etc.
+
+       if(soundOn == true) then
+         --play bkg music only on level 1 screen
+         level1MusicChannel = audio.play(level1Music, {loops = -1})
+         muteButton.isVisible = false
+         unmuteButton.isVisible = true
+
+        elseif (soundOn == false) then 
+         audio.pause(level1MusicChannel)
+         muteButton.isVisible = true
+         unmuteButton.isVisible = false
+        end
+
+        --add mute and unmute functionality to the buttons
+        AddMuteUnMuteListeners()
+        AddUNMuteMuteListeners()
 
         if (ChocolateNumber == 1) then
 
@@ -541,8 +631,6 @@ function scene:hide( event )
         -- Example: stop timers, stop animation, stop audio, etc.
 
 
-        
-
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen.
@@ -561,6 +649,12 @@ function scene:hide( event )
         RemovePhysicsBodies()
         -- start the physics engine
         physics.stop()
+
+        --stop bkg music
+        audio.stop(level1MusicChannel)
+
+        RemoveMuteUnMuteListeners()
+        RemoveUnMuteMuteListeners()
         
     end
 
